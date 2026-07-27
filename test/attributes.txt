@@ -22,13 +22,13 @@ Program(Function("{",Formal(Null),Formal(Boolean),Formal(builtins),"}",Null))
 
 Program(AttrSet("{",Bind(AttrPath(Identifier),Select(Identifier,AttrPath(Identifier,Identifier),or,Null)),Bind(AttrPath(Identifier),Select(Identifier,AttrPath(Identifier,Identifier),or,Parenthesized("(",Select(Identifier,AttrPath(Identifier),or,Integer),")"))),"}"))
 
-# Inherit takes those names too
+# Inherit takes those names, and takes none at all
 
-{ inherit (lib) or null concatStrings; }
+{ inherit; inherit (pkgs); inherit (lib) or null concatStrings; }
 
 ==>
 
-Program(AttrSet("{",inherit,"(",Identifier,")",or,Null,Identifier,"}"))
+Program(AttrSet("{",inherit,inherit,"(",Identifier,")",inherit,"(",Identifier,")",or,Null,Identifier,"}"))
 
 # A value keeps its own kind
 

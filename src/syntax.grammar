@@ -216,8 +216,8 @@ indStringParts { indStrContent | Interpolation<indStrDollarBrace> | indEscapeSeq
 
 binds { (Bind | inherit | inheritFrom)+ }
 Bind { AttrPath "=" expression ";" }
-inherit { kw<"inherit"> attrsInherited ";" }
-inheritFrom { kw<"inherit"> "(" expression ")" attrsInherited ";" }
+inherit { kw<"inherit"> attrsInherited? ";" }
+inheritFrom { kw<"inherit"> "(" expression ")" attrsInherited? ";" }
 
 AttrPath { sep1<".", attrName | String | Interpolation<"${">> }
 
