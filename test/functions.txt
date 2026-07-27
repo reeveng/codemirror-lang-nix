@@ -1,0 +1,44 @@
+# A formal argument set may end on a comma
+
+{
+  lib,
+  stdenv,
+}:
+stdenv
+
+==>
+
+Program(Function("{",Formal(Identifier),Formal(Identifier),"}",Identifier))
+
+# An argument set takes a default, an ellipsis and a name
+
+{ a, b ? 1, ... }@args: args
+
+==>
+
+Program(Function("{",Formal(Identifier),Formal(Identifier,Integer),Ellipses,"}",Identifier,Identifier))
+
+# A name may come before the argument set
+
+args@{ a, ... }: args
+
+==>
+
+Program(Function(Identifier,"{",Formal(Identifier),Ellipses,"}",Identifier))
+
+# An empty argument set is a function of nothing
+
+{ }: 1
+
+==>
+
+Program(Function("{","}",Integer))
+
+# A function of one name needs no set at all
+
+name: name
+
+==>
+
+Program(Function(Identifier,Identifier))
+

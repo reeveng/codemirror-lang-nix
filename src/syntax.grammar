@@ -103,7 +103,7 @@ Function {
 
 formals {
   "{" "}" |
-  "{" Formal ("," Formal)* ("," Ellipses)? "}" |
+  "{" Formal ("," Formal)* ("," Ellipses | ",")? "}" |
   "{" Ellipses "}"
 }
 Formal {
