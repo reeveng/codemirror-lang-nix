@@ -107,8 +107,11 @@ formals {
   "{" Ellipses "}"
 }
 Formal {
-  Identifier ("?" expression)?
+  name ("?" expression)?
 }
+
+name { Identifier | Null | Boolean | kw<"builtins"> }
+attrName { name | kw<"or"> }
 
 Assert { kw<"assert"> expression ";" exprFunction }
 With { kw<"with"> expression ";" exprFunction }
@@ -216,10 +219,10 @@ Bind { AttrPath "=" expression ";" }
 inherit { kw<"inherit"> attrsInherited ";" }
 inheritFrom { kw<"inherit"> "(" expression ")" attrsInherited ";" }
 
-AttrPath { sep1<".", Identifier | String | Interpolation<"${">> }
+AttrPath { sep1<".", attrName | String | Interpolation<"${">> }
 
 attrsInherited {
-  (Identifier | String | Interpolation<"${">)+
+  (attrName | String | Interpolation<"${">)+
 }
 
 Interpolation<start> { start expression "}" }

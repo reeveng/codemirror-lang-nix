@@ -1,0 +1,48 @@
+# A word that means something is still a name
+
+{ or = 1; null = 2; true = 3; builtins = 4; }
+
+==>
+
+Program(AttrSet("{",Bind(AttrPath(or),Integer),Bind(AttrPath(Null),Integer),Bind(AttrPath(Boolean),Integer),Bind(AttrPath(builtins),Integer),"}"))
+
+# Those names work as arguments too, except or, which Nix reserves
+
+{ null, true, builtins }: null
+
+==>
+
+Program(Function("{",Formal(Null),Formal(Boolean),Formal(builtins),"}",Null))
+
+# A select takes a default after the path
+
+{ version = pkgs.foo.version or null; nested = a.b.c or (d.e or 1); }
+
+==>
+
+Program(AttrSet("{",Bind(AttrPath(Identifier),Select(Identifier,AttrPath(Identifier,Identifier),or,Null)),Bind(AttrPath(Identifier),Select(Identifier,AttrPath(Identifier,Identifier),or,Parenthesized("(",Select(Identifier,AttrPath(Identifier),or,Integer),")"))),"}"))
+
+# Inherit takes those names too
+
+{ inherit (lib) or null concatStrings; }
+
+==>
+
+Program(AttrSet("{",inherit,"(",Identifier,")",or,Null,Identifier,"}"))
+
+# A value keeps its own kind
+
+{ a = null; b = true; c = false; d = builtins.length; }
+
+==>
+
+Program(AttrSet("{",Bind(AttrPath(Identifier),Null),Bind(AttrPath(Identifier),Boolean),Bind(AttrPath(Identifier),Boolean),Bind(AttrPath(Identifier),Select(builtins,AttrPath(Identifier))),"}"))
+
+# An attribute path is a path, a string or an interpolation
+
+{ a.b."c".${d} = 1; }
+
+==>
+
+Program(AttrSet("{",Bind(AttrPath(Identifier,Identifier,String,Interpolation(Identifier,"}")),Integer),"}"))
+
