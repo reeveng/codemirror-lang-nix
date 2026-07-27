@@ -1,0 +1,48 @@
+# Two apostrophes escape, and do not end, an indented string
+
+{
+  escaped = ''
+    a''${notAnInterpolation}b
+    c'''d
+    e''\ne
+  '';
+}
+
+==>
+
+Program(AttrSet("{",Bind(AttrPath(Identifier),IndentedString),"}"))
+
+# A backslash in an indented string is one more character
+
+{ literal = ''a\nb''; }
+
+==>
+
+Program(AttrSet("{",Bind(AttrPath(Identifier),IndentedString),"}"))
+
+# An indented string still interpolates
+
+{ greeting = ''
+  hello ${name}
+''; }
+
+==>
+
+Program(AttrSet("{",Bind(AttrPath(Identifier),IndentedString(Interpolation(Identifier,"}"))),"}"))
+
+# A double-quoted string escapes with a backslash
+
+{ a = "one\ntwo\"three"; b = "a${x}b"; }
+
+==>
+
+Program(AttrSet("{",Bind(AttrPath(Identifier),String),Bind(AttrPath(Identifier),String(Interpolation(Identifier,"}"))),"}"))
+
+# An empty string of either kind is a string
+
+{ a = ""; b = ''''; }
+
+==>
+
+Program(AttrSet("{",Bind(AttrPath(Identifier),String),Bind(AttrPath(Identifier),IndentedString),"}"))
+
