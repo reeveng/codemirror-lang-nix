@@ -21,7 +21,7 @@
     "dev-vite": "vite ./dev",
     "dev-cm": "node ./dev/watch.cjs src/index.ts",
     "build": "cm-buildhelper src/index.ts",
-    "test": "cm-runtests",
+    "test": "npm run build && node --test \"test/*.test.ts\"",
     "publish": "npm run build && npm publish"
   },
   "peerDependencies": {

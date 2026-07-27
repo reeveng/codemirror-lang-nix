@@ -1,0 +1,24 @@
+# Two pluses concatenate lists, one adds
+
+{ paths = [ a ] ++ [ b ] ++ c; sum = a + b; }
+
+==>
+
+Program(AttrSet("{",Bind(AttrPath(Identifier),BinaryExpr(List("[",Identifier,"]"),BinaryExpr(List("[",Identifier,"]"),Identifier))),Bind(AttrPath(Identifier),BinaryExpr(Identifier,Identifier)),"}"))
+
+# The rest of the operators
+
+{ a = x // y; b = x -> y; c = x && y || !z; d = x == y != z; e = x <= y >= z; f = -x * y / z; g = x ? attr; }
+
+==>
+
+Program(AttrSet("{",Bind(AttrPath(Identifier),BinaryExpr(Identifier,Identifier)),Bind(AttrPath(Identifier),BinaryExpr(Identifier,Identifier)),Bind(AttrPath(Identifier),BinaryExpr(BinaryExpr(Identifier,Identifier),UnaryExpr(Identifier))),Bind(AttrPath(Identifier),BinaryExpr(BinaryExpr(Identifier,Identifier),Identifier)),Bind(AttrPath(Identifier),BinaryExpr(BinaryExpr(Identifier,Identifier),Identifier)),Bind(AttrPath(Identifier),BinaryExpr(BinaryExpr(UnaryExpr(Identifier),Identifier),Identifier)),Bind(AttrPath(Identifier),BinaryExpr(Identifier,AttrPath(Identifier))),"}"))
+
+# A slash between words is a path, not a division
+
+{ file = ./src/main.nix; home = ~/notes; search = <nixpkgs>; divided = a / b; }
+
+==>
+
+Program(AttrSet("{",Bind(AttrPath(Identifier),Path),Bind(AttrPath(Identifier),HPath),Bind(AttrPath(Identifier),SPath),Bind(AttrPath(Identifier),BinaryExpr(Identifier,Identifier)),"}"))
+

@@ -55,7 +55,7 @@ expression { exprFunction }
   }
 
   @precedence { Path, Float, Integer, Identifier, "." }
-  @precedence { Path, "-", ".", "+", "++", "/" }
+  @precedence { Path, "-", ".", "++", "+", "/" }
 
   HPath {
     '~' ('/' $[a-zA-Z0-9\._\-\+]+)+ '/'?
